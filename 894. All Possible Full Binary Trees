@@ -1,0 +1,67 @@
+894. All Possible Full Binary Trees
+Medium
+
+Given an integer n, return a list of all possible full binary trees with n nodes. Each node of each tree in the answer must have Node.val == 0.
+
+Each element of the answer is the root node of one possible tree. You may return the final list of trees in any order.
+
+A full binary tree is a binary tree where each node has exactly 0 or 2 children.
+
+ 
+
+Example 1:
+
+
+Input: n = 7
+Output: [[0,0,0,null,null,0,0,null,null,0,0],[0,0,0,null,null,0,0,0,0],[0,0,0,0,0,0,0],[0,0,0,0,0,null,null,null,null,0,0],[0,0,0,0,0,null,null,0,0]]
+Example 2:
+
+Input: n = 3
+Output: [[0,0,0]]
+ 
+
+Constraints:
+
+1 <= n <= 20
+
+
+------------------------------------------------------------------------------------------------------------------------------
+Solution->
+------------------------------------------------------------------------------------------------------------------------------
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution: #beats 83.81% runtime, 75.94% Memory 
+    def allPossibleFBT(self, n: int) -> List[Optional[TreeNode]]:
+        
+        
+        def helper(n):
+            if n%2 == 0:
+                return []
+            elif n == 1:
+                return [TreeNode(0)]
+            elif n == 3:
+                ret = TreeNode(0)
+                ret.right = TreeNode(0)
+                ret.left = TreeNode(0)
+                return [ret]
+            else: #n = 5,7,9,11,13,15,
+                i = 1
+                ret = []
+                while i < n:
+                    j = n - i -1
+                    lefts = helper(i)
+                    rights = helper(j)
+                    for left in lefts:
+                        for right in rights:
+                            curr = TreeNode(0)
+                            curr.left = left
+                            curr.right = right
+                            ret.append(curr)
+                    i += 2
+                return ret
+        return helper(n)
